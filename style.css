@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: black;
+    font-family: 'Orbitron', sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Thème clair */
+body.light {
+    background: white;
+    color: black;
+}
+
+body.light .app-version {
+    color: #333; /* Couleur plus foncée pour le mode clair */
+    background: rgba(255, 255, 255, 0.5); /* Fond légèrement clair */
+}
+
+/* Header (menu des 3 points) */
+header {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-size: 1.5rem;
+    z-index: 10;
+}
+
+header .bi {
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+}
+
+/* Icônes noires en mode clair */
+body.light header .bi {
+    color: black;
+}
+
+/* Version */
+.app-version {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+    color: #aaa; /* Couleur grise douce */
+    font-family: 'Orbitron', sans-serif;
+    background: rgba(0, 0, 0, 0.5); /* Fond légèrement sombre */
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 10;
+    text-align: right;
+}
+
+/* Menu déroulant */
+.dropdown-menu {
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 20;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-menu.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Bulles des options de menu */
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 150px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.8); /* Fond blanc translucide par défaut */
+    color: black;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 0 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    text-align: left;
+}
+
+/* Style des bulles en mode clair */
+body.light .menu-item {
+    background: rgba(0, 0, 0, 0.1); /* Fond noir translucide */
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Bordure subtile */
+}
+
+/* Icônes dans les bulles */
+.menu-item i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+/* Bulles au survol */
+.menu-item:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 1); /* Fond plus clair au survol */
+    color: black;
+}
+
+body.light .menu-item:hover {
+    background: rgba(0, 0, 0, 0.2); /* Fond légèrement plus sombre au survol */
+    color: black;
+}
+
+/* Horloge */
+.clock {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Texte de l'heure */
+.time {
+    font-size: 4rem;
+    color: #ff0000;
+    text-shadow: 0 0 15px #ff0000; /* Reflet lumineux */
+}
+
+/* Texte de la date */
+.date {
+    font-size: 2rem;
+    color: #ff0000;
+    text-shadow: 0 0 15px #ff0000;
+    margin-top: 20px;
+}
+
+/* Supprime les reflets en mode clair */
+body.light .time,
+body.light .date {
+    text-shadow: none;
+    color: #ff0000; /* Rouge simple */
+}
+
+/* Points autour de l'horloge */
+.dot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Points rouges par défaut */
+.dot.red {
+    background: #55000054;
+    box-shadow: 0 0 10px #55000054;
+}
+
+/* Points rouges activés */
+.dot.red.active {
+    background: #ff0000;
+    box-shadow: 0 0 20px #ff0000;
+}
+
+/* Points verts */
+.dot.green {
+    background: #ffa600;
+    box-shadow: 0 0 20px #ffa600;
+}
+
+/* Supprime les reflets en mode clair */
+body.light .dot.red,
+body.light .dot.red.active,
+body.light .dot.green {
+    box-shadow: none; /* Supprime le reflet */
+}
+
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+    .clock {
+        width: 300px;
+        height: 300px;
+    }
+
+    .time {
+        font-size: 2rem;
+    }
+
+    .date {
+        font-size: 1rem;
+    }
+}

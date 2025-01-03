@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horloge LED Studio</title>
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <i class="bi bi-three-dots" id="menu-button"></i>
+        <div class="dropdown-menu" id="dropdown-menu">
+            <div class="menu-item" id="fullscreen-toggle">
+                <i class="bi bi-arrows-fullscreen"></i>
+                <span>Plein écran</span>
+            </div>
+            <div class="menu-item" id="audio-toggle">
+                <i class="bi bi-music-note"></i>
+                <span>Activer le son</span>
+            </div>
+            <div class="menu-item" id="theme-toggle">
+                <i class="bi bi-palette"></i>
+                <span>Changer de thème</span>
+            </div>
+            <div class="menu-item" id="timezone-toggle">
+                <i class="bi bi-globe"></i>
+                <span>Fuseau horaire</span>
+            </div>
+            <div class="menu-item" id="language-toggle">
+                <i class="bi bi-translate"></i>
+                <span>Langue</span>
+            </div>
+            
+        </div>
+    </header>
+    <div class="clock">
+        <div class="time" id="time"></div>
+        <div class="date" id="date"></div>
+    </div>
+    <div id="app-version" class="app-version"></div>
+    <script src="script.js"></script>
+    <script src="version.js"></script>
+</body>
+</html>
