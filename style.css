@@ -1,5 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
+/* ─────────────────────────────────────────────────────────────
+   Variables de couleurs (personnalisables)
+   ───────────────────────────────────────────────────────────── */
+:root {
+    --color-time: #ff0000;
+    --color-time-glow: #ff0000;
+
+    --color-seconds-on: #ff0000;
+    --color-seconds-off: rgba(85, 0, 0, 0.33);
+
+    --color-minutes-on: #00aaff;
+    --color-minutes-off: rgba(0, 58, 102, 0.6);
+
+    --color-markers: #ffa600;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────────────────────── */
 body {
     margin: 0;
     display: flex;
@@ -7,8 +26,15 @@ body {
     align-items: center;
     height: 100vh;
     background: black;
+    color: white;
     font-family: 'Orbitron', sans-serif;
     transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Thème sombre explicite */
+body.dark {
+    background: black;
+    color: white;
 }
 
 /* Thème clair */
@@ -17,12 +43,42 @@ body.light {
     color: black;
 }
 
+/* Version en mode clair */
 body.light .app-version {
-    color: #333; /* Couleur plus foncée pour le mode clair */
-    background: rgba(255, 255, 255, 0.5); /* Fond légèrement clair */
+    color: #333;
+    background: rgba(255, 255, 255, 0.5);
 }
 
-/* Header (menu des 3 points) */
+/* ─────────────────────────────────────────────────────────────
+   Options d'affichage (classes)
+   ───────────────────────────────────────────────────────────── */
+body.hide-seconds-dots .dot.red {
+    display: none;
+}
+
+body.hide-minute-dots .dot.minute {
+    display: none;
+}
+
+body.hide-markers .dot.green {
+    display: none;
+}
+
+body.hide-date .date {
+    display: none;
+}
+
+body.hide-ampm .time .ampm {
+    display: none;
+}
+
+body.hide-seconds-time .time .seconds {
+    display: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Header (menu des 3 points)
+   ───────────────────────────────────────────────────────────── */
 header {
     position: absolute;
     top: 10px;
@@ -43,27 +99,32 @@ body.light header .bi {
     color: black;
 }
 
-/* Version */
+/* ─────────────────────────────────────────────────────────────
+   Version
+   ───────────────────────────────────────────────────────────── */
 .app-version {
     position: absolute;
     bottom: 10px;
     right: 10px;
     font-size: 0.9rem;
-    color: #aaa; /* Couleur grise douce */
+    color: #aaa;
     font-family: 'Orbitron', sans-serif;
-    background: rgba(0, 0, 0, 0.5); /* Fond légèrement sombre */
+    background: rgba(0, 0, 0, 0.5);
     padding: 5px 10px;
     border-radius: 5px;
     z-index: 10;
     text-align: right;
 }
 
-/* Menu déroulant */
+/* ─────────────────────────────────────────────────────────────
+   Menu déroulant
+   ───────────────────────────────────────────────────────────── */
 .dropdown-menu {
     position: absolute;
     top: 40px;
     left: 10px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
     border-radius: 10px;
     padding: 15px;
     display: none;
@@ -75,6 +136,14 @@ body.light header .bi {
     opacity: 0;
     transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+/* Menu en mode clair : fond plus adapté */
+body.light .dropdown-menu {
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .dropdown-menu.active {
@@ -88,45 +157,47 @@ body.light header .bi {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 150px;
+    width: 210px;
     height: 50px;
-    background: rgba(255, 255, 255, 0.8); /* Fond blanc translucide par défaut */
-    color: black;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
     border-radius: 10px;
     box-sizing: border-box;
     padding: 0 15px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
+    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
     text-align: left;
 }
 
 /* Style des bulles en mode clair */
 body.light .menu-item {
-    background: rgba(0, 0, 0, 0.1); /* Fond noir translucide */
+    background: rgba(0, 0, 0, 0.05);
     color: black;
-    border: 1px solid rgba(0, 0, 0, 0.2); /* Bordure subtile */
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Icônes dans les bulles */
 .menu-item i {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-right: 10px;
 }
 
 /* Bulles au survol */
 .menu-item:hover {
-    transform: scale(1.1);
-    background: rgba(255, 255, 255, 1); /* Fond plus clair au survol */
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.9);
     color: black;
 }
 
 body.light .menu-item:hover {
-    background: rgba(0, 0, 0, 0.2); /* Fond légèrement plus sombre au survol */
+    background: rgba(0, 0, 0, 0.12);
     color: black;
 }
 
-/* Horloge */
+/* ─────────────────────────────────────────────────────────────
+   Horloge principale
+   ───────────────────────────────────────────────────────────── */
 .clock {
     position: relative;
     width: 600px;
@@ -141,15 +212,23 @@ body.light .menu-item:hover {
 /* Texte de l'heure */
 .time {
     font-size: 4rem;
-    color: #ff0000;
-    text-shadow: 0 0 15px #ff0000; /* Reflet lumineux */
+    color: var(--color-time);
+    text-shadow: 0 0 15px var(--color-time-glow);
+}
+
+/* AM/PM plus petit */
+.time .ampm {
+    font-size: 0.4em;
+    margin-left: 0.25em;
+    vertical-align: top;
+    opacity: 0.9;
 }
 
 /* Texte de la date */
 .date {
     font-size: 2rem;
-    color: #ff0000;
-    text-shadow: 0 0 15px #ff0000;
+    color: var(--color-time);
+    text-shadow: 0 0 15px var(--color-time-glow);
     margin-top: 20px;
 }
 
@@ -157,55 +236,914 @@ body.light .menu-item:hover {
 body.light .time,
 body.light .date {
     text-shadow: none;
-    color: #ff0000; /* Rouge simple */
+    color: var(--color-time);
 }
 
-/* Points autour de l'horloge */
+/* ─────────────────────────────────────────────────────────────
+   Points autour de l'horloge
+   ───────────────────────────────────────────────────────────── */
 .dot {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
 }
 
-/* Points rouges par défaut */
+/* Points rouges (secondes) par défaut */
 .dot.red {
-    background: #55000054;
-    box-shadow: 0 0 10px #55000054;
+    background: var(--color-seconds-off);
+    box-shadow: 0 0 10px var(--color-seconds-off);
 }
 
-/* Points rouges activés */
+/* Points rouges activés (secs déjà "écoulées") */
 .dot.red.active {
-    background: #ff0000;
-    box-shadow: 0 0 20px #ff0000;
+    background: var(--color-seconds-on);
+    box-shadow: 0 0 20px var(--color-seconds-on);
 }
 
-/* Points verts */
+/* Point rouge "runner" (fait le tour en 1 seconde) */
+.dot.red.runner {
+    background: var(--color-seconds-on);
+    box-shadow: 0 0 20px var(--color-seconds-on);
+}
+
+.dot.red.active.runner {
+    background: var(--color-seconds-off);
+    box-shadow: 0 0 10px var(--color-seconds-off);
+}
+
+/* Points bleus (minutes) par défaut */
+.dot.minute {
+    background: var(--color-minutes-off);
+    box-shadow: 0 0 10px var(--color-minutes-off);
+}
+
+/* Points bleus activés (minutes) */
+.dot.minute.active {
+    background: var(--color-minutes-on);
+    box-shadow: 0 0 20px var(--color-minutes-on);
+}
+
+/* Points verts / jaunes (repères 5 s) */
 .dot.green {
-    background: #ffa600;
-    box-shadow: 0 0 20px #ffa600;
+    background: var(--color-markers);
+    box-shadow: 0 0 20px var(--color-markers);
 }
 
 /* Supprime les reflets en mode clair */
 body.light .dot.red,
 body.light .dot.red.active,
-body.light .dot.green {
-    box-shadow: none; /* Supprime le reflet */
+body.light .dot.red.runner,
+body.light .dot.red.active.runner,
+body.light .dot.green,
+body.light .dot.minute,
+body.light .dot.minute.active {
+    box-shadow: none;
 }
 
-/* Responsive styles */
-@media screen and (max-width: 600px) {
+/* ─────────────────────────────────────────────────────────────
+   Overlay & panneau de langue
+   ───────────────────────────────────────────────────────────── */
+.language-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 15;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.language-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.language-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    z-index: 20;
+    min-width: 260px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.language-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.language-panel h2 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.language-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: background 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.language-option .flag {
+    width: 24px;
+    height: 16px;
+    border-radius: 3px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    flex-shrink: 0;
+}
+
+.language-option .label {
+    flex: 1;
+    text-align: left;
+}
+
+.language-option.active {
+    border-color: #ff0000;
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.language-option:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Thème clair pour le panneau langue */
+body.light .language-panel {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+}
+
+body.light .language-option {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+body.light .language-option.active {
+    border-color: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Overlay & panneau de couleurs
+   ───────────────────────────────────────────────────────────── */
+.colors-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 15;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.colors-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.colors-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    z-index: 20;
+    min-width: 290px;
+    max-width: 340px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.colors-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.colors-panel h2 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* Presets */
+.colors-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.color-preset {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    outline: none;
+    transition: background 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.color-preset .swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+}
+
+.color-preset .label {
+    white-space: nowrap;
+}
+
+/* Couleurs des pastilles pour les presets */
+.color-preset[data-theme="classic"] .swatch.seconds { background: #ff0000; }
+.color-preset[data-theme="classic"] .swatch.minutes { background: #00aaff; }
+.color-preset[data-theme="classic"] .swatch.markers { background: #ffa600; }
+
+.color-preset[data-theme="ocean"] .swatch.seconds { background: #00e1ff; }
+.color-preset[data-theme="ocean"] .swatch.minutes { background: #0051ff; }
+.color-preset[data-theme="ocean"] .swatch.markers { background: #00ffbf; }
+
+.color-preset[data-theme="matrix"] .swatch.seconds { background: #00ff00; }
+.color-preset[data-theme="matrix"] .swatch.minutes { background: #00aa66; }
+.color-preset[data-theme="matrix"] .swatch.markers { background: #66ff00; }
+
+.color-preset[data-theme="sunset"] .swatch.seconds { background: #ff4500; }
+.color-preset[data-theme="sunset"] .swatch.minutes { background: #ff0080; }
+.color-preset[data-theme="sunset"] .swatch.markers { background: #ffd000; }
+
+.color-preset.active {
+    border-color: #ff0000;
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.color-preset:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Zone personnalisée */
+.colors-custom h3 {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+.colors-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    gap: 10px;
+}
+
+.colors-row label {
+    font-size: 0.85rem;
+}
+
+.colors-row input[type="color"] {
+    width: 40px;
+    height: 24px;
+    padding: 0;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    cursor: pointer;
+}
+
+.colors-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.colors-buttons button {
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.colors-buttons button:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+/* Thème clair pour le panneau couleurs */
+body.light .colors-panel {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+}
+
+body.light .color-preset {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+body.light .color-preset.active {
+    border-color: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 1);
+}
+
+body.light .colors-row input[type="color"] {
+    border-color: rgba(0, 0, 0, 0.4);
+}
+
+body.light .colors-buttons button {
+    border-color: rgba(0, 0, 0, 0.4);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Overlay & panneau fuseau horaire
+   ───────────────────────────────────────────────────────────── */
+.timezone-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 15;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.timezone-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.timezone-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    z-index: 20;
+    min-width: 300px;
+    max-width: 380px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.timezone-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.timezone-panel h2 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.timezone-modes {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.timezone-modes label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.timezone-modes input[type="radio"] {
+    margin-top: 3px;
+    accent-color: #ff0000;
+}
+
+/* Carte simplifiée */
+.timezone-map-wrapper {
+    margin-bottom: 10px;
+}
+
+.timezone-map {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+}
+
+.timezone-map rect {
+    fill: rgba(255, 255, 255, 0.08);
+    stroke: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: fill 0.15s ease, transform 0.15s ease;
+}
+
+.timezone-map rect:hover {
+    fill: rgba(255, 0, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.timezone-map rect.selected {
+    fill: rgba(255, 0, 0, 0.7);
+}
+
+/* Sélection de zone */
+.timezone-select-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.timezone-select-wrapper label {
+    font-size: 0.9rem;
+}
+
+#timezone-select {
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.5);
+    color: inherit;
+}
+
+/* Section offset */
+.timezone-offset-section {
+    margin-top: 8px;
+}
+
+.timezone-offset-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+#timezone-offset-input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.5);
+    color: inherit;
+}
+
+#timezone-offset-apply {
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+#timezone-offset-apply:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.timezone-offset-help {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* Thème clair pour fuseau horaire */
+body.light .timezone-panel {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+}
+
+body.light #timezone-select,
+body.light #timezone-offset-input {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+body.light .timezone-map {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+body.light .timezone-map rect {
+    fill: rgba(0, 0, 0, 0.03);
+    stroke: rgba(0, 0, 0, 0.25);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Overlay & panneau d'affichage
+   ───────────────────────────────────────────────────────────── */
+.display-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 15;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.display-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.display-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    z-index: 20;
+    min-width: 260px;
+    max-width: 320px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.display-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.display-panel h2 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.display-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.display-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+}
+
+.display-option input[type="checkbox"] {
+    accent-color: #ff0000;
+}
+
+.display-option .label {
+    flex: 1;
+}
+
+/* Thème clair pour le panneau affichage */
+body.light .display-panel {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+}
+
+body.light .display-option {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Overlay & panneau de profils
+   ───────────────────────────────────────────────────────────── */
+.profiles-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 15;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.profiles-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.profiles-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    z-index: 20;
+    min-width: 290px;
+    max-width: 360px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.profiles-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.profiles-panel h2 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.profiles-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.profiles-save {
+    margin-bottom: 4px;
+}
+
+.profiles-name-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+.profiles-save-row {
+    display: flex;
+    gap: 8px;
+}
+
+#profile-name-input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.3);
+    color: inherit;
+}
+
+#profile-name-input:focus {
+    outline: none;
+    border-color: #ff0000;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+#profile-save-btn {
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+    color: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+#profile-save-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.profiles-list-title {
+    margin: 4px 0 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.profiles-empty {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.profile-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 6px;
+}
+
+.profile-name {
+    font-size: 0.9rem;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.profile-actions button {
+    font-family: inherit;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.profile-actions button:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+/* Thème clair pour le panneau profils */
+body.light .profiles-panel {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+}
+
+body.light #profile-name-input {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+body.light .profile-item {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+body.light .profile-actions button {
+    border-color: rgba(0, 0, 0, 0.4);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Chime
+    ───────────────────────────────────────────────────────────── */
+.chime-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 40;
+}
+
+.chime-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.chime-panel {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.chime-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.chime-content {
+    background: var(--panel-bg, #111);
+    color: var(--panel-fg, #fff);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    min-width: 320px;
+    max-width: 450px;
+}
+
+.chime-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    gap: 1rem;
+}
+
+.chime-row label {
+    flex: 0 0 150px;
+}
+
+.chime-row input[type="time"] {
+    flex: 1;
+}
+
+.chime-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.chime-note {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────────────────────── */
+@media screen and (max-width: 800px) {
     .clock {
-        width: 300px;
-        height: 300px;
+        transform: scale(0.7);
+        transform-origin: center center;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .clock {
+        transform: scale(0.55);
+        transform-origin: center center;
     }
 
     .time {
-        font-size: 2rem;
+        font-size: 3rem;
     }
 
     .date {
-        font-size: 1rem;
+        font-size: 1.4rem;
     }
 }

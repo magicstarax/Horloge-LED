@@ -1,46 +1,332 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horloge LED Studio</title>
+
+    <!-- Icône -->
     <link rel="icon" href="icon.ico" type="image/x-icon">
+
+    <!-- Styles principaux -->
     <link href="style.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Drapeaux : librairie flag-icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
 </head>
-<body>
-    <header>
-        <i class="bi bi-three-dots" id="menu-button"></i>
-        <div class="dropdown-menu" id="dropdown-menu">
-            <div class="menu-item" id="fullscreen-toggle">
-                <i class="bi bi-arrows-fullscreen"></i>
-                <span>Plein écran</span>
-            </div>
-            <div class="menu-item" id="audio-toggle">
-                <i class="bi bi-music-note"></i>
-                <span>Activer le son</span>
-            </div>
-            <div class="menu-item" id="theme-toggle">
-                <i class="bi bi-palette"></i>
-                <span>Changer de thème</span>
-            </div>
-            <div class="menu-item" id="timezone-toggle">
-                <i class="bi bi-globe"></i>
-                <span>Fuseau horaire</span>
-            </div>
-            <div class="menu-item" id="language-toggle">
-                <i class="bi bi-translate"></i>
-                <span>Langue</span>
-            </div>
-            
+<body class="dark">
+<header>
+    <i class="bi bi-three-dots" id="menu-button"></i>
+    <div class="dropdown-menu" id="dropdown-menu">
+        <div class="menu-item" id="fullscreen-toggle">
+            <i class="bi bi-arrows-fullscreen"></i>
+            <span>Plein écran</span>
         </div>
-    </header>
-    <div class="clock">
-        <div class="time" id="time"></div>
-        <div class="date" id="date"></div>
+        <div class="menu-item" id="audio-toggle">
+            <i class="bi bi-music-note"></i>
+            <span>Activer le bip</span>
+        </div>
+        <div class="menu-item" id="chime-toggle">
+            <i class="bi bi-bell"></i>
+            <span>Activer le carillon</span>
+        </div>
+        <div class="menu-item" id="chime-planning-toggle">
+            <i class="bi bi-clock-history"></i>
+            <span>Planning du carillon</span>
+        </div>
+        <div class="menu-item" id="theme-toggle">
+            <i class="bi bi-moon-stars"></i>
+            <span>Changer de thème</span>
+        </div>
+        <div class="menu-item" id="display-toggle">
+            <i class="bi bi-eye"></i>
+            <span>Affichage</span>
+        </div>
+        <div class="menu-item" id="profiles-toggle">
+            <i class="bi bi-person-badge"></i>
+            <span>Profils</span>
+        </div>
+        <div class="menu-item" id="colors-toggle">
+            <i class="bi bi-sliders"></i>
+            <span>Couleurs</span>
+        </div>
+        <div class="menu-item" id="timezone-toggle">
+            <i class="bi bi-globe"></i>
+            <span>Fuseau horaire</span>
+        </div>
+        <div class="menu-item" id="language-toggle">
+            <i class="bi bi-translate"></i>
+            <span>Langue</span>
+        </div>
     </div>
-    <div id="app-version" class="app-version"></div>
-    <script src="script.js"></script>
-    <script src="version.js"></script>
+</header>
+
+<div class="clock">
+    <div class="time" id="time"></div>
+    <div class="date" id="date"></div>
+</div>
+
+<div id="app-version" class="app-version"></div>
+
+<!-- Panneau de sélection de langue -->
+<div id="language-overlay" class="language-overlay"></div>
+<div id="language-panel" class="language-panel">
+    <h2 id="language-panel-title">Langue</h2>
+    <div class="language-options">
+
+        <!-- FR -->
+        <button class="language-option active" data-lang="fr">
+            <span class="fi fi-fr flag"></span>
+            <span class="label">Français (FR)</span>
+        </button>
+
+        <!-- EN -->
+        <button class="language-option" data-lang="en">
+            <span class="fi fi-gb flag"></span>
+            <span class="label">English (UK)</span>
+        </button>
+
+        <!-- ES -->
+        <button class="language-option" data-lang="es">
+            <span class="fi fi-es flag"></span>
+            <span class="label">Español (ES)</span>
+        </button>
+
+        <!-- DE -->
+        <button class="language-option" data-lang="de">
+            <span class="fi fi-de flag"></span>
+            <span class="label">Deutsch (DE)</span>
+        </button>
+
+        <!-- IT -->
+        <button class="language-option" data-lang="it">
+            <span class="fi fi-it flag"></span>
+            <span class="label">Italiano (IT)</span>
+        </button>
+    </div>
+</div>
+
+<!-- Panneau de personnalisation des couleurs -->
+<div id="colors-overlay" class="colors-overlay"></div>
+<div id="colors-panel" class="colors-panel">
+    <h2 id="colors-panel-title">Couleurs</h2>
+
+    <div class="colors-presets">
+        <button class="color-preset active" data-theme="classic">
+            <span class="swatch seconds"></span>
+            <span class="swatch minutes"></span>
+            <span class="swatch markers"></span>
+            <span class="label">Classique</span>
+        </button>
+        <button class="color-preset" data-theme="ocean">
+            <span class="swatch seconds"></span>
+            <span class="swatch minutes"></span>
+            <span class="swatch markers"></span>
+            <span class="label">Océan</span>
+        </button>
+        <button class="color-preset" data-theme="matrix">
+            <span class="swatch seconds"></span>
+            <span class="swatch minutes"></span>
+            <span class="swatch markers"></span>
+            <span class="label">Matrix</span>
+        </button>
+        <button class="color-preset" data-theme="sunset">
+            <span class="swatch seconds"></span>
+            <span class="swatch minutes"></span>
+            <span class="swatch markers"></span>
+            <span class="label">Sunset</span>
+        </button>
+    </div>
+
+    <div class="colors-custom">
+        <h3>Personnalisé</h3>
+        <div class="colors-row">
+            <label for="color-seconds-input">Secondes</label>
+            <input type="color" id="color-seconds-input" value="#ff0000">
+        </div>
+        <div class="colors-row">
+            <label for="color-minutes-input">Minutes</label>
+            <input type="color" id="color-minutes-input" value="#00aaff">
+        </div>
+        <div class="colors-row">
+            <label for="color-markers-input">Repères</label>
+            <input type="color" id="color-markers-input" value="#ffa600">
+        </div>
+        <div class="colors-buttons">
+            <button id="colors-apply-custom">Appliquer</button>
+            <button id="colors-reset">Réinitialiser</button>
+        </div>
+    </div>
+</div>
+
+<!-- Panneau fuseau horaire -->
+<div id="timezone-overlay" class="timezone-overlay"></div>
+<div id="timezone-panel" class="timezone-panel">
+    <h2 id="timezone-panel-title">Fuseau horaire</h2>
+
+    <div class="timezone-modes">
+        <label>
+            <input type="radio" name="timezone-mode" value="auto" checked>
+            <span id="timezone-mode-auto-label">Automatique (heure du système)</span>
+        </label>
+        <label>
+            <input type="radio" name="timezone-mode" value="zone">
+            <span id="timezone-mode-zone-label">Sélection par zone / ville</span>
+        </label>
+        <label>
+            <input type="radio" name="timezone-mode" value="offset">
+            <span id="timezone-mode-offset-label">Décalage personnalisé (UTC)</span>
+        </label>
+    </div>
+
+    <div class="timezone-zone-section">
+        <div class="timezone-map-wrapper">
+            <!-- Carte simplifiée : bandes de fuseaux -->
+            <svg id="timezone-map" viewBox="0 0 360 100" class="timezone-map" preserveAspectRatio="none">
+                <rect x="0"   y="0" width="30" height="100" data-tz="Pacific/Midway"></rect>
+                <rect x="30"  y="0" width="30" height="100" data-tz="America/Anchorage"></rect>
+                <rect x="60"  y="0" width="30" height="100" data-tz="America/Los_Angeles"></rect>
+                <rect x="90"  y="0" width="30" height="100" data-tz="America/Denver"></rect>
+                <rect x="120" y="0" width="30" height="100" data-tz="America/Chicago"></rect>
+                <rect x="150" y="0" width="30" height="100" data-tz="America/New_York"></rect>
+                <rect x="180" y="0" width="30" height="100" data-tz="Atlantic/Azores"></rect>
+                <rect x="210" y="0" width="30" height="100" data-tz="Europe/London"></rect>
+                <rect x="240" y="0" width="30" height="100" data-tz="Europe/Paris"></rect>
+                <rect x="270" y="0" width="30" height="100" data-tz="Europe/Moscow"></rect>
+                <rect x="300" y="0" width="30" height="100" data-tz="Asia/Dubai"></rect>
+                <rect x="330" y="0" width="30" height="100" data-tz="Asia/Tokyo"></rect>
+            </svg>
+        </div>
+
+        <div class="timezone-select-wrapper">
+            <label for="timezone-select" id="timezone-select-label">Ville / zone</label>
+            <select id="timezone-select">
+                <option value="Europe/Paris">Europe/Paris (FR)</option>
+                <option value="Europe/London">Europe/London (UK)</option>
+                <option value="Europe/Berlin">Europe/Berlin (DE)</option>
+                <option value="Europe/Madrid">Europe/Madrid (ES)</option>
+                <option value="Europe/Rome">Europe/Rome (IT)</option>
+                <option value="America/New_York">America/New_York (US)</option>
+                <option value="America/Los_Angeles">America/Los_Angeles (US)</option>
+                <option value="America/Sao_Paulo">America/Sao_Paulo (BR)</option>
+                <option value="Africa/Casablanca">Africa/Casablanca (MA)</option>
+                <option value="Asia/Tokyo">Asia/Tokyo (JP)</option>
+                <option value="Asia/Shanghai">Asia/Shanghai (CN)</option>
+                <option value="Asia/Dubai">Asia/Dubai (AE)</option>
+                <option value="Australia/Sydney">Australia/Sydney (AU)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="timezone-offset-section">
+        <label for="timezone-offset-input" id="timezone-offset-label">
+            Décalage par rapport à UTC
+        </label>
+        <div class="timezone-offset-row">
+            <input id="timezone-offset-input" type="number" step="0.5" min="-12" max="14">
+            <button id="timezone-offset-apply" type="button">Appliquer</button>
+        </div>
+        <p class="timezone-offset-help" id="timezone-offset-help">
+            Exemple : -5 pour New York, 5.5 pour l’Inde.
+        </p>
+    </div>
+</div>
+
+<!-- Panneau d'options d'affichage -->
+<div id="display-overlay" class="display-overlay"></div>
+<div id="display-panel" class="display-panel">
+    <h2 id="display-panel-title">Affichage</h2>
+    <div class="display-options">
+        <label class="display-option">
+            <input type="checkbox" id="opt-show-seconds" checked>
+            <span class="label" data-display-label="seconds">Points des secondes</span>
+        </label>
+        <div class="display-option">
+            <input type="checkbox" id="opt-show-seconds-runner">
+            <span class="label" data-display-label="secondsRunner">Roue des secondes</span>
+        </div>
+        <label class="display-option">
+            <input type="checkbox" id="opt-show-minutes" checked>
+            <span class="label" data-display-label="minutes">Points des minutes</span>
+        </label>
+        <label class="display-option">
+            <input type="checkbox" id="opt-show-markers" checked>
+            <span class="label" data-display-label="markers">Repères (toutes les 5 s)</span>
+        </label>
+        <label class="display-option">
+            <input type="checkbox" id="opt-show-date" checked>
+            <span class="label" data-display-label="date">Afficher la date</span>
+        </label>
+        <label class="display-option">
+            <input type="checkbox" id="opt-show-seconds-time" checked>
+            <span class="label" data-display-label="secondsTime">Afficher les secondes dans l'heure</span>
+        </label>
+        <label class="display-option">
+            <input type="checkbox" id="opt-show-ampm" checked>
+            <span class="label" data-display-label="ampm">Afficher le AM/PM</span>
+        </label>
+    </div>
+</div>
+
+<!-- Overlay carillon -->
+<div id="chime-overlay" class="chime-overlay"></div>
+<!-- Panneau de planning du carillon -->
+<div id="chime-panel" class="chime-panel">
+    <h2 id="chime-panel-title">Carillon – plage horaire</h2>
+    <div class="chime-content">
+        <p id="chime-panel-description">
+            Définissez la plage horaire pendant laquelle le carillon est autorisé à sonner.
+        </p>
+
+        <div class="chime-row">
+            <label for="chime-start-hour" id="chime-start-label">Début</label>
+            <input type="time" id="chime-start-hour" value="08:00">
+        </div>
+
+        <div class="chime-row">
+            <label for="chime-end-hour" id="chime-end-label">Fin</label>
+            <input type="time" id="chime-end-hour" value="22:00">
+        </div>
+
+        <div class="chime-buttons">
+            <button id="chime-save-btn" type="button">Enregistrer</button>
+            <button id="chime-cancel-btn" type="button">Annuler</button>
+        </div>
+
+        <p class="chime-note" id="chime-note">
+            Le carillon ne sonnera que entre ces heures (heure du fuseau sélectionné).
+        </p>
+    </div>
+</div>
+
+<!-- Overlay profils -->
+<div id="profiles-overlay" class="profiles-overlay"></div>
+
+<!-- Panneau profils -->
+<div id="profiles-panel" class="profiles-panel">
+    <h2 id="profiles-panel-title">Profils</h2>
+    <div class="profiles-content">
+        <div class="profiles-save">
+            <label for="profile-name-input" class="profiles-name-label">Nom du profil</label>
+            <div class="profiles-save-row">
+                <input id="profile-name-input" type="text" placeholder="Studio nuit">
+                <button id="profile-save-btn" type="button">Enregistrer</button>
+            </div>
+        </div>
+
+        <div class="profiles-list">
+            <p class="profiles-list-title">Profils enregistrés</p>
+            <div id="profiles-list-container"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="script.js"></script>
+<script src="version.js"></script>
 </body>
 </html>
